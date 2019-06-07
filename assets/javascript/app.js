@@ -3,9 +3,13 @@ window.onload = function (){
     $("#start").on("click", start);
 
 }
-var images =  { CorrectGuess:[{ name: "fairy", img: "../images/fairy.jpg"}, 
-{name: "dragon", img: "../images/dragon.jpg"}, {name: "centaur", img: "../images/centaur.jpg"}, {name: "gnome", img: "../images/gnome.jpg"}
-, { name: "mermaid", img: "../images/mermaid.jpg"}]};
+var images =  { CorrectGuess:[
+    {name: "fairy", img: "./assets/images/fairy.jpg"}, 
+    {name: "dragon", img: "./assets/images/dragon.jpg"}, 
+    {name: "centaur", img: "./assets/images/centaur.jpg"}, 
+    {name: "gnome", img: "./assets/images/gnome.jpg"}, 
+    {name: "mermaid", img: "./assets/images/mermaid.jpg"}
+]};
 var wrongAnswer = ["griffin", "pixie", "basilisk", "selkie", "ghoul", "werewolf", "vampire"];
 var timer;
 var score;
@@ -15,7 +19,7 @@ var Submitted = false;
 
 
 function reset (){
-    $("#display").text("0:00");
+    $("#display").text("2:00");
     $("#start").show;
     score = 0;
     time = 120;
@@ -35,22 +39,31 @@ function count (){
 }
 //display question with three different answer choices (1 correct, 2 incorrect)
 function trivia(){
-    for(var i = 0; i <images.length; i++){
-        var random = wrongAnswer[Math.floor(Math.random()*wrongAnswer.length)];
-        $("#question").html("<img src = " + images.CorrectGuess[i].img + "/>");
-        $("#choice1").html(images.CorrectGuess[i].name);
-        $("#choice2").text(random);
-        $("#choice3").text(random);
+    if(!Submitted){
+        console.log(images.length)
+        for(var i = 0; i < images.CorrectGuess.length; i++){
+            Submitted = false;
+            var random = wrongAnswer[Math.floor(Math.random()*wrongAnswer.length)];
+            var temp = new Image();
+            temp.src = images.CorrectGuess[i].img;
+            $("#question").html("<img id=\"img_" + i + "\"" + "/>");
+            $("#img_" + i).attr("src", temp.src);
+            $("#choice1").html(images.CorrectGuess[i].name);
+            $("#choice2").text(random);
+            $("#choice3").text(random);
+        }
     }
 
 }
 console.log($("#question"));
 console.log($("#choice1"));
 //save answer chosen, change questions after click, once all questions have been submitted, stop timer, show #correct/correct answers
-// function submit (){
-//     $("#submit").on("click", function())
+function submit (){
+    $("#submit").on("click", function(){
+            Submitted = true;
+    })
 
-// }
+}
 function timeConverter(t) {
 
     var minutes = Math.floor(t / 60);

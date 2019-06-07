@@ -1,3 +1,7 @@
 #Total, #game{
     display:none;
 }
+
+img[id^="img_"] {
+    width: 20%;
+}
