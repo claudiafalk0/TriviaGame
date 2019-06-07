@@ -1,5 +1,5 @@
 window.onload = function (){
-   $("#submit").on("click", submit);
+   $("#buttons").on("click", submit);
     $("#start").on("click", start);
 
 }
@@ -40,17 +40,15 @@ function count (){
 //display question with three different answer choices (1 correct, 2 incorrect)
 function trivia(){
     if(!Submitted){
-        console.log(images.length)
         for(var i = 0; i < images.CorrectGuess.length; i++){
-            Submitted = false;
-            var random = wrongAnswer[Math.floor(Math.random()*wrongAnswer.length)];
             var temp = new Image();
             temp.src = images.CorrectGuess[i].img;
             $("#question").html("<img id=\"img_" + i + "\"" + "/>");
             $("#img_" + i).attr("src", temp.src);
             $("#choice1").html(images.CorrectGuess[i].name);
-            $("#choice2").text(random);
-            $("#choice3").text(random);
+            $("#choice2").text( wrongAnswer[Math.floor(Math.random()*wrongAnswer.length)]);
+            $("#choice3").text( wrongAnswer[Math.floor(Math.random()*wrongAnswer.length)]);
+            submit();
         }
     }
 
@@ -59,8 +57,8 @@ console.log($("#question"));
 console.log($("#choice1"));
 //save answer chosen, change questions after click, once all questions have been submitted, stop timer, show #correct/correct answers
 function submit (){
-    $("#submit").on("click", function(){
-            Submitted = true;
+    $("#buttons").on("click", function(){
+            Submitted = false;
     })
 
 }
