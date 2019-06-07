@@ -14,7 +14,7 @@ Don't forget to include a countdown timer. -->
 
 <head>
     <meta charset="UTF-8">
-    <title> Crystals Collector </title>
+    <title> Trivia Game </title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
     <link rel="stylesheet" href="assets/css/style.css">
@@ -24,14 +24,21 @@ Don't forget to include a countdown timer. -->
        
     <h1> Mythic Creatures Trivia Game</h1>
     <div id = "display"> 0:00 </div>
-    <div id = "question"></div>
-    <div id = "buttons">
-        <button id = "choice1"></button>
-        <button id = "choice2"></button>
-        <button id = "choice3"></button>
+    <button id = "start"> Start </button>
+    <div id = "game">
+        <div id = "question"></div>
+        <div id = "buttons">
+            <button id = "choice1">A</button>
+            <button id = "choice2">B</button>
+            <button id = "choice3">C</button>
+            <button id = "submit">Submit</button>
+        </div>
+    </div>
+    <div id = "Total">
+        <p>Questions Correct: <span id = "Score"> </span></p>
     </div>
     
-    <script type="text/javascript" src="assets/javascript/game.js"></script>
+    <script type="text/javascript" src="assets/javascript/app.js"></script>
     </body>
     
     </html>
