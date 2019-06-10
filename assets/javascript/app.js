@@ -24,6 +24,7 @@ var images =  { CorrectGuess:[
 var wrongAnswer = ["griffin", "pixie", "basilisk", "selkie", "ghoul", "werewolf", "vampire"];
 var timer;
 var score;
+var incorrect;
 var time = 30;
 var position;
 var done;
@@ -33,6 +34,7 @@ var done;
 function reset (){
     $("#start").show;
     score = 0;
+    incorrect = 0;
 
 }
 //start the timer, display a question, remove start button
@@ -92,8 +94,12 @@ function Choice(win){
             $("#endResult").show();
             var temp = new Image();
             temp.src = response.data[Math.floor(Math.random() * response.data.length)].images.fixed_height.url;
-            $("#endResult").html("<p id = 'winning'>Yay! You got it right!</p><img id='giphy'/><button id = 'next'>Next Question</button>");
+            $("#endResult").html("<p id = 'winning'>Yay! You got it right!</p><img id='giphy'/>");
             $("#giphy").attr("src", temp.src);
+            score++
+            setTimeout(function(){
+                trivia();
+            }, 3000);
             
         })
     } else {
@@ -106,8 +112,12 @@ function Choice(win){
             $("#endResult").show();
             var temp = new Image();
             temp.src = response.data[Math.floor(Math.random() * response.data.length)].images.fixed_height.url;
-            $("#endResult").html("<p id = 'winning'>Loooooser!!!!</p><img id='giphy'/><button id = 'next'>Next Question</button>");
+            $("#endResult").html("<p id = 'winning'>I'm sorry, the correct answer was " + images.CorrectGuess[position].name + "</p><img id='giphy'/>");
             $("#giphy").attr("src", temp.src);
+            incorrect++
+            setTimeout(function(){
+                trivia();
+            }, 3000)
         })
     }
 }
@@ -146,7 +156,8 @@ $("#choice2").on("click", function(){
 $("#choice3").on("click", function(){
     $("#choice3").text() === images.CorrectGuess[position].name ? Choice(true) : Choice(false);
 });
-
-$("body").on("click", 'button#next', function(){
-    start();
-});
+if(images.CorrectGuess.shown === true){
+$("#Score").text(score);
+$("#Incorrect").text(incorrect);
+$("Total").html("<button id = 'reset'> Reset Game </button>")
+}
