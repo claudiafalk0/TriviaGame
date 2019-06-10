@@ -2,6 +2,7 @@
     display:none;
 }
 
-img[id^="img_"] {
+#img {
     width: 20%;
+    display: block;
 }
