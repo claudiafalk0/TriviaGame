@@ -23,8 +23,8 @@ var images =  { CorrectGuess:[
 ]};
 var wrongAnswer = ["griffin", "pixie", "basilisk", "selkie", "ghoul", "werewolf", "vampire"];
 var timer;
-var score;
-var incorrect;
+var score = 0;
+var incorrect = 0;
 var time = 30;
 var position;
 var done;
@@ -32,11 +32,17 @@ var done;
 //reset the game 
 
 function reset (){
-    $("#start").show;
+    $("#start").show();
+    $("#Total").hide();
+    $("#endResult").hide();
+    $("#reset").remove();
     score = 0;
     incorrect = 0;
-
+    for(var i = 0; i < images.CorrectGuess.length; i++) {
+        images.CorrectGuess[i].shown = false;
+    }
 }
+
 //start the timer, display a question, remove start button
 function start (){
     $("#start").hide();
@@ -48,7 +54,6 @@ function start (){
     done = false;
 }
 
-
 function count (){
     if(time > 0) {
         time--;
@@ -59,10 +64,16 @@ function count (){
         done = true;
     }
 }
+
 //display question with three different answer choices (1 correct, 2 incorrect)
 function trivia(){
+    var counter = 0;
     do {
+        counter++;
         position = Math.floor(Math.random() * images.CorrectGuess.length);
+        if (counter > images.CorrectGuess.length) {
+            return;
+        }
     } while (images.CorrectGuess[position].shown);
     images.CorrectGuess[position].shown = true;
     var temp = new Image();
@@ -85,6 +96,7 @@ function trivia(){
 //save answer chosen, change questions after click, once all questions have been submitted, stop timer, show #correct/correct answers
 function Choice(win){
     if (win === true) {
+        score++;
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=win&api_key=TEjv4DhokKiGmbR0CqNmeMPDL5lC9h6u";
         $.ajax({
             url: queryURL,
@@ -96,13 +108,9 @@ function Choice(win){
             temp.src = response.data[Math.floor(Math.random() * response.data.length)].images.fixed_height.url;
             $("#endResult").html("<p id = 'winning'>Yay! You got it right!</p><img id='giphy'/>");
             $("#giphy").attr("src", temp.src);
-            score++
-            setTimeout(function(){
-                trivia();
-            }, 3000);
-            
-        })
+        });
     } else {
+        incorrect++;
         var queryURL = "http://api.giphy.com/v1/gifs/search?q=loser&api_key=TEjv4DhokKiGmbR0CqNmeMPDL5lC9h6u";
         $.ajax({
             url: queryURL,
@@ -114,11 +122,25 @@ function Choice(win){
             temp.src = response.data[Math.floor(Math.random() * response.data.length)].images.fixed_height.url;
             $("#endResult").html("<p id = 'winning'>I'm sorry, the correct answer was " + images.CorrectGuess[position].name + "</p><img id='giphy'/>");
             $("#giphy").attr("src", temp.src);
-            incorrect++
-            setTimeout(function(){
-                trivia();
-            }, 3000)
-        })
+        });
+    }
+
+    var showScore = true;
+    for(var i = 0; i < images.CorrectGuess.length; i++) {
+        if(!images.CorrectGuess[i].shown) {
+            showScore = false;
+            break;
+        }
+    }
+
+    if(showScore) {
+        $("#Score").text(score);
+        $("#Incorrect").text(incorrect);
+        $("#Total").after("<button id = 'reset'> Reset Game </button>").show();
+    } else {
+        setTimeout(function(){
+            start();
+        }, 3000);
     }
 }
 
@@ -156,8 +178,6 @@ $("#choice2").on("click", function(){
 $("#choice3").on("click", function(){
     $("#choice3").text() === images.CorrectGuess[position].name ? Choice(true) : Choice(false);
 });
-if(images.CorrectGuess.shown === true){
-$("#Score").text(score);
-$("#Incorrect").text(incorrect);
-$("Total").html("<button id = 'reset'> Reset Game </button>")
-}
+$("body").on("click", "button#reset", function(){
+    reset();
+})
