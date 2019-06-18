@@ -1,4 +1,4 @@
-#Total, #game{
+#Total{
     display:none;
 }
 
@@ -8,4 +8,23 @@
 }
 #next{
     display: block;
+}
+h1{
+    text-align: center;
+    font-family: 'Mali', cursive;
+}
+#startButton{
+    text-align: center;
+}
+#game{
+    display:none;
+    text-align:center;
+
+}
+#img{
+    display:block;
+    margin-left:auto;
+    margin-right:auto;
+    width:40%;
+    margin-bottom:10px;
 }
